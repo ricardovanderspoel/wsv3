@@ -30,7 +30,7 @@ export default {
     }),
     methods: {
         submit() {
-            console.log(this.form.website);
+            //console.log(this.form.website);
         }
     }
 }

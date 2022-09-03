@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'active_company_id',
     ];
 
     /**
@@ -41,4 +42,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function companies () {
+        return $this->belongsToMany(Company::class, 'users_companies');
+    }
+
+    public function invoices () {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function company() {
+        return $this->belongsTo(Company::class, 'active_company_id');
+    }
+
+    public function isOwner($company) {
+        return $this->company->id == $company->id;
+    }
+
+    public function isMember($company) {
+        return $this->companies->contains($company);
+    }
+
+    public function isOwnerOrMember($company) {
+        return $this->isOwner($company) || $this->isMember($company);
+    }
+
+    
 }

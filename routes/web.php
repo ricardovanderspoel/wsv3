@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('login', function() {
+  return view('login');
+})->name('login');
+
 Route::get('{path}', function() {
-  return view('welcome');
-})->where('path', '.*');
+  if (auth()->check()) {
+    return view('welcome');
+  }
+  return redirect()->route('login');
+})->where('path', '.*')->name('vue');
+
+
